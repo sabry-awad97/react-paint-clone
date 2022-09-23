@@ -9,7 +9,7 @@ const initialState = {
   isCanvasCleared: false,
   activeToolText: 'Brush',
   isDataLoading: false,
-  isMouseDown: false,
+  isDrawing: false,
   isImageDownloading: false,
   drawnData: [] as ILine[],
 };
@@ -33,11 +33,11 @@ const slice = createSlice({
     updatActiveToolText: (state, action: PayloadAction<string>) => {
       state.activeToolText = action.payload;
     },
-    updatIsMouseDown: (state, action: PayloadAction<boolean>) => {
+    updatIsDrawing: (state, action: PayloadAction<boolean>) => {
       state.isCanvasCleared = false;
       state.isDataLoading = false;
       state.isImageDownloading = false;
-      state.isMouseDown = action.payload;
+      state.isDrawing = action.payload;
     },
     updatIsImageDownloaded: (state, action: PayloadAction<boolean>) => {
       state.isImageDownloading = action.payload;

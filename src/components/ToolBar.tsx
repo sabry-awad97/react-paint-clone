@@ -6,7 +6,9 @@ import { ClearLocalStorage } from './ClearLocalStorage';
 import { DownloadImage } from './DownloadImage';
 import { Eraser } from './Eraser';
 import { LoadLocalStorage } from './LoadLocalStorage';
+import { Redo } from './Redo';
 import { SaveLocalStorage } from './SaveLocalStorage';
+import { Undo } from './Undo';
 
 export function ToolBar() {
   return (
@@ -19,6 +21,8 @@ export function ToolBar() {
       <SaveLocalStorage />
       <LoadLocalStorage />
       <ClearLocalStorage />
+      <Undo />
+      <Redo />
       <DownloadImage />
     </div>
   );

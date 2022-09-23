@@ -28,9 +28,9 @@ export const getIsEraser = createSelector(
   ({ isEraser }) => isEraser
 );
 
-export const getIsMouseDown = createSelector(
+export const getIsDrawing = createSelector(
   [selectState],
-  ({ isMouseDown }) => isMouseDown
+  ({ isDrawing }) => isDrawing
 );
 
 export const getIsCanvasCleared = createSelector(

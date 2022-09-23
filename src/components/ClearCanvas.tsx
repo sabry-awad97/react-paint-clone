@@ -6,7 +6,7 @@ export const ClearCanvas = () => {
   return (
     <div className="tool">
       <i
-        className="fas fa-undo-alt"
+        className="fas fa-delete-left"
         onClick={() => {
           clearCanvas();
           updatActiveToolText('Canvas Cleared');

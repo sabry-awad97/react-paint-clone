@@ -11,23 +11,23 @@ import {
   getIsEraser,
   getIsImageDownloading,
   getIsDataLoading,
-  getIsMouseDown,
+  getIsDrawing,
   getStoredData,
 } from '../redux/selectors';
 import useEventListener from './useEventListener';
 
 const useCanvas = () => {
-  const { updatIsMouseDown, storeDrawnLine } = useActions();
+  const { updatIsDrawing, storeDrawnLine } = useActions();
 
   const brushColor = useAppSelector(getBrushColor);
   const brushSize = useAppSelector(getBrushSize);
   const bucketColor = useAppSelector(getBucketColor);
   const drawnData = useAppSelector(getStoredData);
   const isCanvasCleared = useAppSelector(getIsCanvasCleared);
+  const isDataLoading = useAppSelector(getIsDataLoading);
+  const isDrawing = useAppSelector(getIsDrawing);
   const isEraser = useAppSelector(getIsEraser);
   const isImageDownloading = useAppSelector(getIsImageDownloading);
-  const isDataLoading = useAppSelector(getIsDataLoading);
-  const isMouseDown = useAppSelector(getIsMouseDown);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -66,7 +66,7 @@ const useCanvas = () => {
     event => {
       const context = canvasRef.current?.getContext('2d');
       if (!context) return;
-      updatIsMouseDown(true);
+      updatIsDrawing(true);
       const currentPosition = getMousePosition(event);
       context.moveTo(currentPosition.x, currentPosition.y);
       context.beginPath();
@@ -77,13 +77,13 @@ const useCanvas = () => {
     canvasRef
   );
 
-  useEventListener('mouseup', () => updatIsMouseDown(false), canvasRef);
+  useEventListener('mouseup', () => updatIsDrawing(false), canvasRef);
 
   useEventListener(
     'mousemove',
     event => {
       const context = canvasRef.current?.getContext('2d');
-      if (isMouseDown && context) {
+      if (isDrawing && context) {
         const currentPosition = getMousePosition(event);
         context.lineTo(currentPosition.x, currentPosition.y);
         context.stroke();
