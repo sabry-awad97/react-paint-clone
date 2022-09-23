@@ -16,6 +16,9 @@ export function ActiveTool() {
 
   return (
     <div className="active-tool">
+      <a href="https://github.com/sabry-awad97/react-paint-clone">
+        <img src="icons/logo.png" alt="logo" />
+      </a>
       <span title="Active Tool">{activeToolText}</span>
     </div>
   );

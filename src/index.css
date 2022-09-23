@@ -53,6 +53,8 @@ body {
 /* Tools */
 .active-tool {
   position: absolute;
+  display: flex;
+  align-items: center;
   top: 9px;
   left: 5px;
 }
