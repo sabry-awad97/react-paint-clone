@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { BRUSH_CURSOR } from '../constants/brush';
 import { downloadFile } from '../helpers/downloadFile';
 
 import { useActions, useAppSelector } from '../redux/hooks';
@@ -31,8 +32,11 @@ const useCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    const context = canvasRef.current?.getContext('2d');
-    if (!context) return;
+    const canvas = canvasRef.current;
+    const context = canvas?.getContext('2d');
+    if (!canvas || !context) return;
+
+    canvas.style.cursor = `url('${BRUSH_CURSOR}'), auto`;
 
     context.fillStyle = bucketColor;
     context.fillRect(0, 0, canvasRef.current!.width, canvasRef.current!.height);
