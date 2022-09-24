@@ -13,6 +13,7 @@ export const Undo = () => {
         className="fas fa-undo-alt"
         onClick={() => {
           updatActiveToolText('Undo');
+          setIsDisabled(true);
         }}
         title="Undo"
       ></i>

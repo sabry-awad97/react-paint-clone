@@ -14,6 +14,7 @@ export const Redo = () => {
         className="fas fa-redo-alt"
         onClick={() => {
           updatActiveToolText('Redo');
+          setIsDisabled(isDisabled);
         }}
         title="Redo"
       ></i>
