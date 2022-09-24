@@ -78,6 +78,11 @@ body {
   margin-left: 8px;
 }
 
+div.is-disabled {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
 .brush {
   background-color: rgb(114, 114, 114);
   height: 44px;

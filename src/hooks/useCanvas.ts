@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { BRUSH_CURSOR } from '../constants/brush';
+import { BRUSH_CURSOR, ERASER_CURSOR } from '../constants/brush';
 import { downloadFile } from '../helpers/downloadFile';
 
 import { useActions, useAppSelector } from '../redux/hooks';
@@ -36,25 +36,45 @@ const useCanvas = () => {
     const context = canvas?.getContext('2d');
     if (!canvas || !context) return;
 
-    canvas.style.cursor = `url('${BRUSH_CURSOR}'), auto`;
-
     context.fillStyle = bucketColor;
     context.fillRect(0, 0, canvasRef.current!.width, canvasRef.current!.height);
 
-    for (let i = 1; i < drawnData.length; i++) {
-      context.beginPath();
-      context.moveTo(drawnData[i - 1].x, drawnData[i - 1].y);
-      context.lineWidth = drawnData[i].size;
-      context.lineCap = 'round';
-      if (drawnData[i].erase) {
-        context.strokeStyle = bucketColor;
-      } else {
-        context.strokeStyle = drawnData[i].color;
+    const restoreCanvas = () => {
+      for (let i = 1; i < drawnData.length; i++) {
+        context.beginPath();
+        context.moveTo(drawnData[i - 1].x, drawnData[i - 1].y);
+        context.lineWidth = drawnData[i].size;
+        context.lineCap = 'round';
+        if (drawnData[i].erase) {
+          context.strokeStyle = bucketColor;
+        } else {
+          context.strokeStyle = drawnData[i].color;
+        }
+        context.lineTo(drawnData[i].x, drawnData[i].y);
+        context.stroke();
       }
-      context.lineTo(drawnData[i].x, drawnData[i].y);
-      context.stroke();
-    }
+    };
+
+    restoreCanvas();
   }, [bucketColor, isCanvasCleared, isDataLoading]);
+
+  useEffect(() => {
+    if (isImageDownloading) {
+      downloadFile(canvasRef.current!.toDataURL('image/jpeg', 1));
+    }
+  }, [isImageDownloading]);
+
+  useEffect(() => {
+    const chanageCursorStyle = () => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      canvas.style.cursor = `url('${
+        isEraser ? ERASER_CURSOR : BRUSH_CURSOR
+      }'), auto`;
+    };
+
+    chanageCursorStyle();
+  }, [isEraser]);
 
   const getMousePosition = ({ clientX, clientY }: MouseEvent) => {
     const { left, top } = canvasRef.current?.getBoundingClientRect()!;
@@ -100,11 +120,6 @@ const useCanvas = () => {
     canvasRef
   );
 
-  useEffect(() => {
-    if (isImageDownloading) {
-      downloadFile(canvasRef.current!.toDataURL('image/jpeg', 1));
-    }
-  }, [isImageDownloading]);
   return canvasRef;
 };
 
